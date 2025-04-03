@@ -1,0 +1,55 @@
+import random
+
+print("Welcome to Words!")
+print("In this game, you'll be guessing a word.")
+print("Type 'start' when you're ready.\nIf at any point you need to leave the game, type 'quit'.")
+print("There's only one rule...\nYou lose the game after 5 wrong guesses, but don't worry!\nYou'll be able to try again!")
+
+game_start = input().lower()
+
+# Word options
+words = ["cookies", "crochet", "playlist", "cellphone", "engineer"]
+shuffled_word = random.choice(words)  # Picks a random word from the list
+
+display = ["_"] * len(shuffled_word)  # Creates a blank word display
+attempts = 5
+guessed_letters = []
+
+if game_start == "start":
+    while attempts > 0:
+        print("\nCurrent word: " + " ".join(display))  # Show progress
+        guess = input("Guess a letter: ").lower()
+
+        if guess == "quit":
+            print("Ending game... Thanks for playing!")
+            break
+
+        if len(guess) != 1 or not guess.isalpha():
+            print("Please enter a single letter.")
+            continue
+
+        if guess in guessed_letters:
+            print("You've already guessed that letter!")
+            continue
+
+        guessed_letters.append(guess)
+
+        if guess in shuffled_word:
+            for index, letter in enumerate(shuffled_word):
+                if letter == guess:
+                    display[index] = letter
+            print("Correct!")
+        else:
+            attempts -= 1
+            print(f"Wrong! You have {attempts} attempts left.")
+
+        if "_" not in display:
+            print("\nCongratulations! You guessed the word:", shuffled_word)
+            break
+
+    if attempts == 0:
+        print("\nOut of attempts! The correct word was:", shuffled_word)
+
+elif game_start == "quit":
+    print("Exiting game. See you next time!")
+
